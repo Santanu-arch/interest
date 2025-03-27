@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compound Interest Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calculator {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 350px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+  
+    .input-box {
+      margin-bottom: 10px;
+    }
+
+    input, select {
+      width: 330px;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    button:focus {
+      outline: none;
+    }
+
+    .result {
+      margin-top: 30px;
+      font-size: 18px;
+      background: rgba(0, 255, 0, 0.1);
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .result p {
+      color: rgba(0, 128, 0, 1);
+    }
+  
+    .result span {
+      font-weight: bold;   
+    }
+
+    .interest-box {
+      margin-top: 15px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .calculator {
+        padding: 15px;
+        max-width: 330px;
+      }
+
+      input, select {
+        width: 300px;
+      }
+
+      button {
+        padding: 12px;
+        font-size: 16px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .result {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Compound Interest Calculator</h2>
+    <p class="text-center">Formula: A = P(1 + r/n)<sup>nt</sup> + PMT((1 + r/n)<sup>nt</sup> - 1)/(r/n)</p>
+    <div class="input-box">
+      <label for="starting-balance">Starting Balance (P): </label>
+      <input type="number" id="starting-balance">
+    </div>
+    <div class="input-box">
+      <label for="contribution">Contribution (PMT): </label>
+      <input type="number" id="contribution">
+    </div>
+    <div class="input-box">
+      <label for="years">Years (t): </label>
+      <input type="number" id="years">
+    </div>
+    <div class="input-box">
+      <label for="rate">% Interest Rate (r): </label>
+      <input type="number" id="rate">
+    </div>
+    <div class="input-box">
+      <label for="compound">Compound Frequency (n): </label>
+      <select id="compound">
+        <option value="365">Daily</option>
+        <option value="12" selected="selected">Monthly</option>
+        <option value="1">Annually</option>
+      </select>
+    </div>
+    <button id="calculate">Calculate</button>
+
+    <div class="result">
+      <p>Starting Amount: <span id="amount">0</span></p>
+      <p>Total Interest: <span id="interest">0</span></p>
+      <p>Total Amount: <span id="total">0</span></p>
+    </div>
+  </div>
+
+  <script>
+    let btn = document.getElementById("calculate");
+    btn.addEventListener("click", calculate);
+
+    function calculate() {
+      /* Formula: A = P(1 + r/n)^nt + PMT((1 + r/n)^nt - 1)/(r/n) */
+      
+      let P = Number(document.getElementById("starting-balance").value);
+      let r = Number(document.getElementById("rate").value) / 100;
+      let t = Number(document.getElementById("years").value);
+      let n = Number(document.getElementById("compound").value);
+      let PMT = Number(document.getElementById("contribution").value);
+
+      let temp = Math.pow((1 + r / n), n * t);
+      let result1 = P * temp;
+      let result2 = PMT * (temp - 1) / (r / n);
+      let result = (result1 + result2).toFixed(2);
+      let interest = (result - P).toFixed(2);
+
+      document.getElementById("amount").innerText = P;
+      document.getElementById("interest").innerText = interest;
+      document.getElementById("total").innerText = result;
+    }
+  </script>
+</body>
+</html>
